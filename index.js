@@ -12,6 +12,7 @@
 // Environment variables
 // DISCORD_WEBHOOK
 
+const apiName = "Réseau Discord Artivain (official)";
 const apiVersion = "1.0.0";
 const headers = {
 	"content-type": "application/json;charset=UTF-8",
@@ -22,7 +23,6 @@ const kvParameters = {
 	type: "json",
 	cacheTtl: 600 // 10 minutes
 };
-const address = "https://api-rd.artivain.com/";
 
 addEventListener("fetch", event => {
 	event.respondWith(handleRequest(event.request));
@@ -41,6 +41,7 @@ async function handleRequest(request) {
 	const parameters = requestURL.searchParams;
 	let status = 200;
 	const response = {
+		dbName: apiName,
 		apiVersion,
 		action
 	};
