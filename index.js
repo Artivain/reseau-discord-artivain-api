@@ -147,6 +147,31 @@ async function handleRequest(request) {
 				} else status = 403;
 			} else status = 401;
 		} else status = 400;
+	} else if (action == "remove-blacklist" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
+		const id = parameters.get("id"),
+			username = parameters.get("username"),
+			token = parameters.get("token");
+
+		response.id = id;
+		response.auth = {
+			username,
+			token: "hidden"
+		};
+
+		if (isValidId(id)) {
+			const user = await SECRETS.get(username, kvParameters);
+			if (user && user.token == token) {
+				if (user.perms.includes("blacklist")) {
+					const blacklistEntry = await BLACKLIST.get(id, kvParameters);
+					if (blacklistEntry) {
+						const removedBlacklistEntry = await BLACKLIST.delete(id);
+						if (typeof removedBlacklistEntry == "undefined") {
+							response.removed = true;
+						} else status = 500;
+					} else status = 404;
+				} else status = 403;
+			} else status = 401;
+		} else status = 400;
 	} else {
 		status = 400; // Bad request
 	}
