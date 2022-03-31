@@ -107,6 +107,31 @@ async function handleRequest(request) {
 				} else status = 403;
 			} else status = 401;
 		} else status = 400;
+	} else if (action == "remove-suspect" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
+		const id = parameters.get("id"),
+			username = parameters.get("username"),
+			token = parameters.get("token");
+
+		response.id = id;
+		response.auth = {
+			username,
+			token: "hidden"
+		};
+
+		if (isValidId(id)) {
+			const user = await SECRETS.get(username, kvParameters);
+			if (user && user.token == token) {
+				if (user.perms.includes("suslist")) {
+					const suslistEntry = await SUSLIST.get(id, kvParameters);
+					if (suslistEntry) {
+						const removedSuslistEntry = await SUSLIST.delete(id);
+						if (typeof removedSuslistEntry == "undefined") {
+							response.removed = true;
+						} else status = 500;
+					} else status = 404;
+				} else status = 403;
+			} else status = 401;
+		} else status = 400;
 	} else if (action == "add-blacklist" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
 		const id = parameters.get("id"),
 			username = parameters.get("username"),
