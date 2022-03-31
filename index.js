@@ -58,7 +58,7 @@ async function handleRequest(request) {
 					addedBy: sus.addedBy,
 					since: sus.since
 				};
-			} else response.sus = false;
+			} else response.suspect = false;
 
 			if (bl) {
 				response.blacklist = {
