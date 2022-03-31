@@ -81,7 +81,7 @@ async function handleRequest(request) {
 		if (isValidId(id)) {
 			const user = await SECRETS.get(username, kvParameters);
 			if (user && user.token == token) {
-				if (user.perms.includes("suslist") || user.perms.includes("suslist-add")) {
+				if (user.perms.includes("suslist") || user.perms.includes("suslist.add")) {
 					const alreadySus = await SUSLIST.get(id, kvParameters);
 					if (alreadySus) {
 						response.added = false;
@@ -146,7 +146,7 @@ async function handleRequest(request) {
 		if (isValidId(id)) {
 			const user = await SECRETS.get(username, kvParameters);
 			if (user && user.token == token) {
-				if (user.perms.includes("blacklist") || user.perms.includes("blacklist-add")) {
+				if (user.perms.includes("blacklist") || user.perms.includes("blacklist.add")) {
 					const alreadyBlacklisted = await BLACKLIST.get(id, kvParameters);
 					if (alreadyBlacklisted) {
 						response.added = false;
