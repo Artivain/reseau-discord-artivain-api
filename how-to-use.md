@@ -7,10 +7,10 @@ Some endpoints are public and so do not require a token. This way, everyone can 
 
 All endpoints only accept the GET method. The only exception is the `/ping` endpoint, which allows all methods.
 
-### Example request:
+### Example request
 `GET https://api-rd.artivain.com/v1/check?id=382869186042658818`
 
-### Example response:
+### Example response
 ```json
 {
 	"dbName": "Réseau Discord Artivain (official)",
@@ -29,9 +29,9 @@ All endpoints only accept the GET method. The only exception is the `/ping` endp
 | [`/ping`](#ping) | ✅ | *none* | *none* |
 | [`/check`](#check) | ✅ | *none* | `id` |
 | [`/add-suspect`](#add-suspect) |  | suslist.add | `id`, `username`, `token` |
-| `/remove-suspect` |  | suslist | `id`, `username`, `token` |
-| `/add-blacklist` |  | blacklist.add | `id`, `username`, `token` |
-| `/remove-blacklist` |  | blacklist | `id`, `username`, `token` |
+| [`/remove-suspect`](#remove-suspect) |  | suslist | `id`, `username`, `token` |
+| [`/add-blacklist`](#add-blacklist) |  | blacklist.add | `id`, `username`, `token` |
+| [`/remove-blacklist`](#remove-blacklist) |  | blacklist | `id`, `username`, `token` |
 
 ### /ping
 This simple endpoint is useful for checking if the API is working.
