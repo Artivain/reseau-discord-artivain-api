@@ -34,7 +34,6 @@ addEventListener("fetch", event => {
  * @returns {Response}
  */
 async function handleRequest(request) {
-	if (request.method != "GET") return new Response("{}", { status: 405, headers });
 	const requestURL = new URL(request.url);
 	if (requestURL.pathname.split("/")[1] != "v1") return new Response("{}", { status: 400, headers });
 	const action = requestURL.pathname.split("/")[2];
@@ -45,6 +44,13 @@ async function handleRequest(request) {
 		apiVersion,
 		action
 	};
+
+	if (action == "ping") {
+		response.online = true;
+		return new Response(JSON.stringify(response), { headers });
+	}
+
+	if (request.method != "GET") return new Response("{}", { status: 405, headers });
 
 	if (action == "check" && parameters.has("id")) {
 		const id = parameters.get("id");
