@@ -111,7 +111,7 @@ async function handleRequest(request) {
 						} else status = 500;
 					}
 				} else status = 403;
-			} else status = 401;
+			} else status = 498;
 		} else status = 400;
 	} else if (action == "remove-suspect" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
 		const id = parameters.get("id"),
@@ -124,7 +124,7 @@ async function handleRequest(request) {
 			token: "hidden"
 		};
 
-		if (isValidId(id)) {
+		if (isValidId(id) && username && token) {
 			const user = await SECRETS.get(username, kvParameters);
 			if (user && user.token == token) {
 				if (user.perms.includes("suslist")) {
@@ -136,7 +136,7 @@ async function handleRequest(request) {
 						} else status = 500;
 					} else status = 404;
 				} else status = 403;
-			} else status = 401;
+			} else status = 498;
 		} else status = 400;
 	} else if (action == "add-blacklist" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
 		const id = parameters.get("id"),
@@ -176,7 +176,7 @@ async function handleRequest(request) {
 						} else status = 500;
 					}
 				} else status = 403;
-			} else status = 401;
+			} else status = 498;
 		} else status = 400;
 	} else if (action == "remove-blacklist" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
 		const id = parameters.get("id"),
@@ -201,7 +201,7 @@ async function handleRequest(request) {
 						} else status = 500;
 					} else status = 404;
 				} else status = 403;
-			} else status = 401;
+			} else status = 498;
 		} else status = 400;
 	} else {
 		status = 400; // Bad request
