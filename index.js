@@ -1,6 +1,6 @@
 /**
  * API for Réseau Discord Artivain
- * @version 1.0.0
+ * @version 1.0.1
  * @author Thomas Fournier <thomas@artivain.com>
  */
 
@@ -13,7 +13,7 @@
 // DISCORD_WEBHOOK
 
 const apiName = "Réseau Discord Artivain (official)";
-const apiVersion = "1.0.0";
+const apiVersion = "1.0.1";
 const headers = {
 	"content-type": "application/json;charset=UTF-8",
 	"Access-Control-Allow-Origin": "*",
