@@ -84,7 +84,7 @@ async function handleRequest(request) {
 			token: "hidden"
 		};
 
-		if (isValidId(id)) {
+		if (isValidId(id) && username && token) {
 			const user = await SECRETS.get(username, kvParameters);
 			if (user && user.token == token) {
 				if (user.perms.includes("suslist") || user.perms.includes("suslist.add")) {
@@ -149,7 +149,7 @@ async function handleRequest(request) {
 			token: "hidden"
 		};
 
-		if (isValidId(id)) {
+		if (isValidId(id) && username && token) {
 			const user = await SECRETS.get(username, kvParameters);
 			if (user && user.token == token) {
 				if (user.perms.includes("blacklist") || user.perms.includes("blacklist.add")) {
@@ -189,7 +189,7 @@ async function handleRequest(request) {
 			token: "hidden"
 		};
 
-		if (isValidId(id)) {
+		if (isValidId(id) && username && token) {
 			const user = await SECRETS.get(username, kvParameters);
 			if (user && user.token == token) {
 				if (user.perms.includes("blacklist")) {
