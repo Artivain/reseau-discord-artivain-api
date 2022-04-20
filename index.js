@@ -124,7 +124,7 @@ async function handleRequest(request) {
 			token: "hidden"
 		};
 
-		if (isValidId(id)) {
+		if (isValidId(id) && username && token) {
 			const user = await SECRETS.get(username, kvParameters);
 			if (user && user.token == token) {
 				if (user.perms.includes("suslist")) {
