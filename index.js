@@ -53,7 +53,7 @@ async function handleRequest(request) {
 	if (request.method != "GET") return new Response("{}", { status: 405, headers });
 
 	if (action == "check" && parameters.has("id")) {
-		const id = parameters.get("id");
+		const id = parameters.get("id").trim();
 		response.id = id;
 		if (isValidId(id)) {
 			const sus = await SUSLIST.get(id, kvParameters);
@@ -74,7 +74,7 @@ async function handleRequest(request) {
 			} else response.blacklist = false;
 		} else status = 400;
 	} else if (action == "add-suspect" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
-		const id = parameters.get("id"),
+		const id = parameters.get("id").trim(),
 			username = parameters.get("username"),
 			token = parameters.get("token");
 
@@ -114,7 +114,7 @@ async function handleRequest(request) {
 			} else status = 401;
 		} else status = 400;
 	} else if (action == "remove-suspect" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
-		const id = parameters.get("id"),
+		const id = parameters.get("id").trim(),
 			username = parameters.get("username"),
 			token = parameters.get("token");
 
@@ -139,7 +139,7 @@ async function handleRequest(request) {
 			} else status = 401;
 		} else status = 400;
 	} else if (action == "add-blacklist" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
-		const id = parameters.get("id"),
+		const id = parameters.get("id").trim(),
 			username = parameters.get("username"),
 			token = parameters.get("token");
 
@@ -179,7 +179,7 @@ async function handleRequest(request) {
 			} else status = 401;
 		} else status = 400;
 	} else if (action == "remove-blacklist" && parameters.has("id") && parameters.has("username") && parameters.has("token")) {
-		const id = parameters.get("id"),
+		const id = parameters.get("id").trim(),
 			username = parameters.get("username"),
 			token = parameters.get("token");
 
