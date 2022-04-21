@@ -1,6 +1,6 @@
 /**
  * API for Réseau Discord Artivain
- * @version 1.0.1
+ * @version 1.1.0
  * @author Thomas Fournier <thomas@artivain.com>
  */
 
@@ -13,7 +13,7 @@
 // DISCORD_WEBHOOK
 
 const apiName = "Réseau Discord Artivain (official)";
-const apiVersion = "1.0.1";
+const apiVersion = "1.1.0";
 const headers = {
 	"content-type": "application/json;charset=UTF-8",
 	"Access-Control-Allow-Origin": "*",
@@ -23,6 +23,7 @@ const kvParameters = {
 	type: "json",
 	cacheTtl: 600 // 10 minutes
 };
+const enableDiscordNotification = true;
 
 addEventListener("fetch", event => {
 	event.respondWith(handleRequest(event.request));
@@ -108,6 +109,7 @@ async function handleRequest(request) {
 								addedBy: username,
 								since
 							};
+							await sendDiscordNotification("added to suspects", username, id);
 						} else status = 500;
 					}
 				} else status = 403;
@@ -133,6 +135,7 @@ async function handleRequest(request) {
 						const removedSuslistEntry = await SUSLIST.delete(id);
 						if (typeof removedSuslistEntry == "undefined") {
 							response.removed = true;
+							await sendDiscordNotification("removed from suspects", username, id);
 						} else status = 500;
 					} else status = 404;
 				} else status = 403;
@@ -173,6 +176,7 @@ async function handleRequest(request) {
 								addedBy: username,
 								since
 							};
+							await sendDiscordNotification("added to blacklist", username, id);
 						} else status = 500;
 					}
 				} else status = 403;
@@ -198,6 +202,7 @@ async function handleRequest(request) {
 						const removedBlacklistEntry = await BLACKLIST.delete(id);
 						if (typeof removedBlacklistEntry == "undefined") {
 							response.removed = true;
+							await sendDiscordNotification("removed from blacklist", username, id);
 						} else status = 500;
 					} else status = 404;
 				} else status = 403;
@@ -213,6 +218,29 @@ async function handleRequest(request) {
 		headers
 	});
 };
+
+/**
+ * Send notification to a Discord channel through a webhook
+ * @param {string} action - The action the user just did
+ * @param {string} by - The said user
+ * @param {string} on - Timestamp
+ * @param {string} id - The ID added to the list
+ * @returns {Response}
+ * @async
+ * @since 1.1.0
+ */
+function sendDiscordNotification(action, by, id) {
+	if (enableDiscordNotification) return fetch(DISCORD_WEBHOOK, {
+		method: "POST",
+		headers: {
+			"Accept": "application/json",
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			content: `${by}: ${action} \`${id}\``
+		})
+	});
+}
 
 /**
  * Check if a string is a valid Discord ID
